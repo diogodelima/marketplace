@@ -16,7 +16,6 @@ import pt.diogo.marketplace.service.ProductService
 @RequestMapping("/product")
 class ProductController(
 
-    @Autowired
     private val productService: ProductService
 
 ) {
@@ -27,7 +26,6 @@ class ProductController(
         @RequestParam("field") field: Product.SortField = Product.SortField.NAME,
         @RequestParam("direction") direction: Direction = Direction.DESC
     ): ResponseEntity<Collection<Product>> {
-
         return ResponseEntity
             .ok(productService.getByPage(page, field, direction))
     }
