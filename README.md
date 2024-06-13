@@ -11,3 +11,5 @@ The database system used is [MySQL](https://www.mysql.com/)
 This project consists of a marketplace like [Facebook Marketplace](https://www.facebook.com/marketplace/), where users can list and search for products to buy and sell.
 
 # Features
+
+- Implemented Spring Security with Bearer Token authentication for secure access to protected endpoints.
