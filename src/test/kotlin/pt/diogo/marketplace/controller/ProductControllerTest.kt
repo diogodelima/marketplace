@@ -7,8 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDate
@@ -58,7 +57,7 @@ class ProductControllerTest {
 
         mockMvc
             .perform(
-                post("/product/register")
+                put("/product/register")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(json)
             )
@@ -66,7 +65,7 @@ class ProductControllerTest {
 
         mockMvc
             .perform(
-                post("/product/register")
+                put("/product/register")
                     .header("Authorization", "Bearer $myToken")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(json)
