@@ -26,7 +26,7 @@ class TokenService(
             return JWT.create()
                 .withIssuer("marketplace")
                 .withSubject(user.email)
-                .withExpiresAt(generateExpirationDate())
+                //.withExpiresAt(generateExpirationDate())
                 .sign(algorithm)
         }catch (e: JWTCreationException){
             throw RuntimeException("Error while generating token", e)

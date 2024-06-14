@@ -24,7 +24,11 @@ data class Product(
     val category: Category,
 
     @Column(name = "date_of_publication", nullable = false)
-    val dateOfPublication: LocalDate
+    val dateOfPublication: LocalDate = LocalDate.now(),
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_email")
+    val user: User
 
 ){
 

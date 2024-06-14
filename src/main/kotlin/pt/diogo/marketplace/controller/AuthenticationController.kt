@@ -1,11 +1,12 @@
 package pt.diogo.marketplace.controller
 
+import jakarta.validation.ConstraintViolationException
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -28,7 +29,7 @@ class AuthenticationController(
 ) {
 
     @PostMapping("/login")
-    fun login(@RequestBody @Validated authDto: LoginRequestDto): ResponseEntity<LoginResponseDto> {
+    fun login(@RequestBody @Valid authDto: LoginRequestDto): ResponseEntity<LoginResponseDto> {
 
         val usernamePassword = UsernamePasswordAuthenticationToken(authDto.email, authDto.password)
         val auth = authenticationManager.authenticate(usernamePassword)
@@ -39,12 +40,14 @@ class AuthenticationController(
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody registerDto: RegisterRequestDto): ResponseEntity<Any> {
+    fun register(@RequestBody @Valid registerDto: RegisterRequestDto): ResponseEntity<Any> {
 
         try {
 
             userService.loadUserByUsername(registerDto.email)
-            return ResponseEntity.badRequest().build()
+            return ResponseEntity
+                .badRequest()
+                .body("Email already exists")
 
         }catch (e: UsernameNotFoundException){
 
@@ -59,6 +62,10 @@ class AuthenticationController(
             return ResponseEntity
                 .ok()
                 .build()
+        }catch (e: ConstraintViolationException) {
+            return ResponseEntity
+                .badRequest()
+                .body(e.constraintViolations.map { it.message })
         }
 
     }
