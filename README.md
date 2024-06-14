@@ -5,6 +5,7 @@ This is a personal project in [Kotlin](https://kotlinlang.org/) using the follow
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Spring Data](https://spring.io/projects/spring-data)
 - [Spring Security](https://spring.io/projects/spring-security)
+- [Jakarta Validation](https://github.com/jakartaee/validation)
 
 The database system used is [MySQL](https://www.mysql.com/)
 
