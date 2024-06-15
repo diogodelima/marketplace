@@ -20,7 +20,7 @@ data class User(
 
     @Column(nullable = false)
     @get:JvmName("getUserPassword")
-    val password: String,
+    var password: String,
 
     @Enumerated(EnumType.STRING)
     val role: Role = Role.USER
