@@ -24,7 +24,8 @@ class ProductServiceImpl(
     override fun getByPage(
         page: Int,
         sortField: Product.SortField,
-        direction: Sort.Direction
+        direction: Sort.Direction,
+        category: Product.Category
     ): Collection<Product> {
 
         var sort = Sort.by(sortField.fieldName)
@@ -32,7 +33,7 @@ class ProductServiceImpl(
 
         val page = PageRequest.of(page - 1, PAGE_SIZE, sort)
         return productRepository
-            .findAll(page)
+            .findAllByCategory(page, category)
             .toList()
 
     }

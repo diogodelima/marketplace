@@ -9,7 +9,7 @@ class ResponseProductDto(
     val name: String,
     val description: String,
     val price: Double,
-    val category: Product.Category,
+    val category: Collection<Product.Category>,
     val dateOfPublication: LocalDate
 
 )

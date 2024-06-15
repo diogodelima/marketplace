@@ -51,7 +51,10 @@ class ProductControllerTest {
                 "name": "Rocket League",
                 "description": "Um jogo que mistura futebol e carros! \nUm jogo perfeito para os amantes destes temas.",
                 "price": 19.99,
-                "category": "TOYS_AND_GAMES"
+                "category": [
+                    "ALL",
+                    "TOYS_AND_GAMES"
+                ]
             }
         """.trimIndent()
 

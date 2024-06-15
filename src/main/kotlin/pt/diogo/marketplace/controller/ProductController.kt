@@ -31,17 +31,24 @@ class ProductController(
     fun getByPage(
         @PathVariable("page") page: Int,
         @RequestParam("field") field: Product.SortField = Product.SortField.NAME,
-        @RequestParam("direction") direction: Direction = Direction.DESC
-    ): ResponseEntity<Collection<Product>> {
+        @RequestParam("direction") direction: Direction = Direction.DESC,
+        @RequestParam("category") category: Product.Category = Product.Category.ALL
+    ): ResponseEntity<Collection<ResponseProductDto>> {
         return ResponseEntity
-            .ok(productService.getByPage(page, field, direction))
+            .ok(
+                productService
+                    .getByPage(page, field, direction, category)
+                    .map { ResponseProductDto(it.id!!, it.name, it.description,
+                        it.price, it.category, it.dateOfPublication) }
+            )
     }
 
     @GetMapping("/id/{id}")
-    fun getById(@PathVariable("id") id: Long): ResponseEntity<Product>{
+    fun getById(@PathVariable("id") id: Long): ResponseEntity<ResponseProductDto>{
         val product = productService.getById(id) ?: throw ProductNotFoundException()
         return ResponseEntity
-            .ok(product)
+            .ok(ResponseProductDto(product.id!!, product.name, product.description, product.price,
+                product.category, product.dateOfPublication))
     }
 
     @PutMapping("/register")

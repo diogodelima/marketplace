@@ -18,6 +18,6 @@ class RegisterProductDto(
     val price: Double,
 
     @field:Enumerated
-    val category: Product.Category
+    val category: Collection<Product.Category>
 
 )

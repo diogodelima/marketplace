@@ -19,9 +19,9 @@ data class Product(
 
     val price: Double,
 
-    @Column(nullable = false)
+    @ElementCollection(targetClass = Category::class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    val category: Category,
+    val category: Collection<Category>,
 
     @Column(name = "date_of_publication", nullable = false)
     val dateOfPublication: LocalDate = LocalDate.now(),
@@ -38,6 +38,7 @@ data class Product(
 
     ) {
 
+        ALL("Todos"),
         VEHICLES("Veículos"),
         TOYS_AND_GAMES("Brinquedos e Jogos"),
         ELECTRONICS("Equipamento Eletrónico"),

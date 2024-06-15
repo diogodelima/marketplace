@@ -10,7 +10,8 @@ interface ProductService {
     fun getByPage(
         page: Int,
         sortField: Product.SortField,
-        direction: Direction
+        direction: Direction,
+        category: Product.Category
     ): Collection<Product>
 
     fun getById(id: Long): Product?
