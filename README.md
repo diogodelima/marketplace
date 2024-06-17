@@ -14,3 +14,5 @@ This project consists of a marketplace like [Facebook Marketplace](https://www.f
 # Features
 
 - Implemented Spring Security with Bearer Token authentication for secure access to protected endpoints.
+- Cart system to store the products the user wants to buy
+- Stripe checkout system (**soon**)
