@@ -1,6 +1,6 @@
 # marketplace
 
-This is a personal project in [Kotlin](https://kotlinlang.org/) using the following frameworks:
+This is a personal project using [Kotlin](https://kotlinlang.org/) with the following frameworks:
 
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Spring Data](https://spring.io/projects/spring-data)
