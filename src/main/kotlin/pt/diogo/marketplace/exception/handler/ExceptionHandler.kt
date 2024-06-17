@@ -3,10 +3,12 @@ package pt.diogo.marketplace.exception.handler
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
+import pt.diogo.marketplace.exception.LoginException
 import pt.diogo.marketplace.exception.PasswordNotMatchException
 import pt.diogo.marketplace.exception.ProductNotFoundException
 import pt.diogo.marketplace.exception.UserCurrentPasswordIsNotEqualsException
@@ -27,6 +29,16 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(PasswordNotMatchException::class)
     fun passwordNotMatchExceptionHandler(ex: PasswordNotMatchException, request: WebRequest): ResponseEntity<Any>? {
         return handleExceptionInternal(ex, "The passwords you entered don't match", HttpHeaders(), HttpStatus.BAD_REQUEST, request)
+    }
+
+    @ExceptionHandler(LoginException::class)
+    fun loginExceptionHandler(ex: LoginException, request: WebRequest): ResponseEntity<Any>? {
+        return handleExceptionInternal(ex, "Invalid credentials", HttpHeaders(), HttpStatus.BAD_REQUEST, request)
+    }
+
+    @ExceptionHandler(UsernameNotFoundException::class)
+    fun usernameNotFoundExceptionHandler(ex: LoginException, request: WebRequest): ResponseEntity<Any>? {
+        return handleExceptionInternal(ex, "Invalid credentials", HttpHeaders(), HttpStatus.BAD_REQUEST, request)
     }
 
 }

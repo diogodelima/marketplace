@@ -27,7 +27,6 @@ class SecurityFilter(
         val token = retrieveToken(request)
 
         if (token != null) {
-
             val email = tokenService.validateToken(token)
             val user = userService.loadUserByUsername(email)
             val authentication = UsernamePasswordAuthenticationToken(user, null, user.authorities)

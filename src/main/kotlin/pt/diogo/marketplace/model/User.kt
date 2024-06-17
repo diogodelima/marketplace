@@ -23,7 +23,10 @@ data class User(
     var password: String,
 
     @Enumerated(EnumType.STRING)
-    val role: Role = Role.USER
+    val role: Role = Role.USER,
+
+    @OneToOne(fetch = FetchType.LAZY)
+    val cart: Cart
 
 ): UserDetails {
 

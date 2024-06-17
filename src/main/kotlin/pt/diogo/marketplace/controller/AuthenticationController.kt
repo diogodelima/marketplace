@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pt.diogo.marketplace.dto.*
+import pt.diogo.marketplace.exception.LoginException
 import pt.diogo.marketplace.exception.PasswordNotMatchException
 import pt.diogo.marketplace.exception.UserCurrentPasswordIsNotEqualsException
+import pt.diogo.marketplace.model.Cart
 import pt.diogo.marketplace.model.User
+import pt.diogo.marketplace.service.CartService
 import pt.diogo.marketplace.service.MailSenderService
 import pt.diogo.marketplace.service.TokenService
 import pt.diogo.marketplace.service.UserService
@@ -27,6 +30,7 @@ class AuthenticationController(
 
     private val authenticationManager: AuthenticationManager,
     private val userService: UserService,
+    private val cartService: CartService,
     private val tokenService: TokenService,
     private val mailSenderService: MailSenderService
 
@@ -35,12 +39,17 @@ class AuthenticationController(
     @PostMapping("/login")
     fun login(@RequestBody @Valid requestDto: LoginRequestDto): ResponseEntity<LoginResponseDto> {
 
-        val usernamePassword = UsernamePasswordAuthenticationToken(requestDto.email, requestDto.password)
-        val auth = authenticationManager.authenticate(usernamePassword)
-        val token = tokenService.generateToken(auth.principal as User)
+        try {
+            val usernamePassword = UsernamePasswordAuthenticationToken(requestDto.email, requestDto.password)
+            val auth = authenticationManager.authenticate(usernamePassword)
+            val token = tokenService.generateToken(auth.principal as User)
 
-        return ResponseEntity
-            .ok(LoginResponseDto(token))
+            return ResponseEntity
+                .ok(LoginResponseDto(token))
+        }catch (ex: Exception){
+            throw LoginException()
+        }
+
     }
 
     @PostMapping("/register")
@@ -55,11 +64,14 @@ class AuthenticationController(
 
         }catch (e: UsernameNotFoundException){
 
+            val cart = cartService.save(Cart())
+
             val user = User(
                 firstName = requestDto.firstName,
                 lastName = requestDto.lastName,
                 email = requestDto.email,
                 password = BCryptPasswordEncoder().encode(requestDto.password),
+                cart = cart
             )
 
             userService.save(user)
