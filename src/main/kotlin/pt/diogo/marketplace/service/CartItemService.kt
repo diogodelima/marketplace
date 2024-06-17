@@ -6,6 +6,8 @@ interface CartItemService {
 
     fun save(cartItem: CartItem): CartItem
 
+    fun delete(cartItemId: Long)
+
     fun getCartItemByCartId(cartId: Long): Collection<CartItem>
 
 }

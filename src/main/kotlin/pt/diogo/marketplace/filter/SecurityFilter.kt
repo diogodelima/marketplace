@@ -5,8 +5,11 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
+import pt.diogo.marketplace.model.User
 import pt.diogo.marketplace.service.TokenService
 import pt.diogo.marketplace.service.UserService
 
@@ -28,7 +31,15 @@ class SecurityFilter(
 
         if (token != null) {
             val email = tokenService.validateToken(token)
-            val user = userService.loadUserByUsername(email)
+            val user: UserDetails
+
+            try {
+                user = userService.loadUserByUsername(email)
+            }catch (e: UsernameNotFoundException){
+                filterChain.doFilter(request, response)
+                return
+            }
+
             val authentication = UsernamePasswordAuthenticationToken(user, null, user.authorities)
             SecurityContextHolder.getContext().authentication = authentication
         }
