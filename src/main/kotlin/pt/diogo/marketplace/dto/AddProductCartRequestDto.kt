@@ -1,6 +1,5 @@
 package pt.diogo.marketplace.dto
 
-import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 
 class AddProductCartRequestDto(

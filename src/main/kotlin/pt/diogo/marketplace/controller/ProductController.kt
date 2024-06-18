@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import pt.diogo.marketplace.dto.ProductResponseDto
 import pt.diogo.marketplace.dto.RegisterProductDto
-import pt.diogo.marketplace.dto.ResponseProductDto
 import pt.diogo.marketplace.exception.ProductNotFoundException
 import pt.diogo.marketplace.model.Product
 import pt.diogo.marketplace.model.User
@@ -32,26 +32,26 @@ class ProductController(
         @RequestParam("field") field: Product.SortField = Product.SortField.NAME,
         @RequestParam("direction") direction: Direction = Direction.DESC,
         @RequestParam("category") category: Product.Category = Product.Category.ALL
-    ): ResponseEntity<Collection<ResponseProductDto>> {
+    ): ResponseEntity<Collection<ProductResponseDto>> {
         return ResponseEntity
             .ok(
                 productService
                     .getByPage(page, field, direction, category)
-                    .map { ResponseProductDto(it.id!!, it.name, it.description,
+                    .map { ProductResponseDto(it.id!!, it.name, it.description,
                         it.price, it.category, it.dateOfPublication) }
             )
     }
 
     @GetMapping("/id/{id}")
-    fun getById(@PathVariable("id") id: Long): ResponseEntity<ResponseProductDto>{
+    fun getById(@PathVariable("id") id: Long): ResponseEntity<ProductResponseDto>{
         val product = productService.getById(id) ?: throw ProductNotFoundException()
         return ResponseEntity
-            .ok(ResponseProductDto(product.id!!, product.name, product.description, product.price,
+            .ok(ProductResponseDto(product.id!!, product.name, product.description, product.price,
                 product.category, product.dateOfPublication))
     }
 
     @PostMapping("/register")
-    fun registerProduct(@RequestBody @Valid productDto: RegisterProductDto): ResponseEntity<ResponseProductDto> {
+    fun registerProduct(@RequestBody @Valid productDto: RegisterProductDto): ResponseEntity<ProductResponseDto> {
 
         val user = SecurityContextHolder.getContext().authentication.principal as User
 
@@ -65,7 +65,7 @@ class ProductController(
 
         product = productService.save(product)
         return ResponseEntity
-            .ok(ResponseProductDto(
+            .ok(ProductResponseDto(
                 product.id!!, product.name, product.description, product.price,
                 product.category, product.dateOfPublication
             ))

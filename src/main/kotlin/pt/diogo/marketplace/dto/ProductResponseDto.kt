@@ -3,10 +3,9 @@ package pt.diogo.marketplace.dto
 import pt.diogo.marketplace.model.Product
 import java.time.LocalDate
 
-class RemoveProductCartResponseDto(
+class ProductResponseDto(
 
-    val productId: Long,
-    val amount: Int,
+    val id: Long,
     val name: String,
     val description: String,
     val price: Double,

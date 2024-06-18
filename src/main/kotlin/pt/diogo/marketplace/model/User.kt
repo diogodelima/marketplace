@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.util.*
 
 @Entity
 @Table(name = "user")
@@ -40,6 +41,17 @@ data class User(
 
     override fun getUsername(): String {
         return email
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(email)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        other as User
+        return email == other.email
     }
 
     enum class Role {

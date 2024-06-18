@@ -19,8 +19,8 @@ class CartItemServiceImpl(
         cartItemRepository.deleteById(cartItemId)
     }
 
-    override fun getCartItemByCartId(cartId: Long): Collection<CartItem> {
-        return cartItemRepository.findCartItemByCartId(cartId)
+    override fun getById(cartItemId: Long): CartItem? {
+        return cartItemRepository.findById(cartItemId).orElse(null)
     }
 
 }

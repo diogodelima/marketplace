@@ -5,8 +5,4 @@ import org.springframework.stereotype.Repository
 import pt.diogo.marketplace.model.CartItem
 
 @Repository
-interface CartItemRepository: JpaRepository<CartItem, Long> {
-
-    fun findCartItemByCartId(cartId: Long): Collection<CartItem>
-
-}
+interface CartItemRepository: JpaRepository<CartItem, Long>

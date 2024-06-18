@@ -8,6 +8,6 @@ interface CartItemService {
 
     fun delete(cartItemId: Long)
 
-    fun getCartItemByCartId(cartId: Long): Collection<CartItem>
+    fun getById(cartItemId: Long): CartItem?
 
 }

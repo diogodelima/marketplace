@@ -1,6 +1,7 @@
 package pt.diogo.marketplace.model
 
 import jakarta.persistence.*
+import java.util.*
 
 @Entity
 @Table(name = "cart_item")
@@ -14,13 +15,21 @@ data class CartItem(
     val cart: Cart,
 
     @OneToOne
-    @JoinTable(
-        name = "cart_item_products",
-        joinColumns = [JoinColumn(name = "cart_item_id")],
-        inverseJoinColumns = [JoinColumn(name = "product_id")]
-    )
     val product: Product,
 
     var amount: Int
 
-)
+){
+
+    override fun hashCode(): Int {
+        return Objects.hash(id)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        other as CartItem
+        return id == other.id
+    }
+
+}
